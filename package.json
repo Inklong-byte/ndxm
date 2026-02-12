@@ -10,7 +10,7 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:ndxm.helloWorld"
+    "onLanguage:javascript"
   ],
   "main": "./extension.js",
   "contributes": {
