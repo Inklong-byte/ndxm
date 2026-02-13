@@ -20,9 +20,48 @@ function myCustomFunc() {
                 completion.detail = '测试补全 - 自己写的第一个补全';
                 // 补全项图标（函数图标）
                 completion.kind = vscode.CompletionItemKind.Function;
+
+                const debounceItem = new vscode.CompletionItem('mydebounce');
+                debounceItem.insertText = new vscode.SnippetString(`
+/**
+ * 防抖函数 - 自己写的补全
+ * @param {Function} fn 执行函数
+ * @param {number} delay 延迟时间
+ */
+function myDebounce(fn, delay = 300) {
+    let timer = null;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn.apply(this, args), delay);
+    };
+}
+`);
+                debounceItem.detail = '防抖函数 - 高频工具补全';
+                debounceItem.kind = vscode.CompletionItemKind.Function;
                 
+                const throttleItem = new vscode.CompletionItem('mythrottle');
+                throttleItem.insertText = new vscode.SnippetString(`
+/**
+ * 节流函数 - 自己写的补全
+ * @param {Function} fn 执行函数
+ * @param {number} interval 间隔时间
+ */
+function myThrottle(fn, interval = 300) {
+    let lastTime = 0;
+    return (...args) => {
+        const now = Date.now();
+        if (now - lastTime >= interval) {
+            fn.apply(this, args);
+            lastTime = now;
+        }
+    };
+}
+`);
+                throttleItem.detail = '节流函数 - 高频工具补全';
+                throttleItem.kind = vscode.CompletionItemKind.Function;
+
                 // 返回补全项（必须返回数组）
-                return [completion];
+                return [completion,debounceItem,throttleItem];
             }
         },
         // 触发前缀：输入myfunc的任意字符都触发
